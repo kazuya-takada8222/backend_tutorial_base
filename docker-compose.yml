@@ -25,7 +25,6 @@ services:
         depends_on:
             - mysql
             - mailpit
-
     # データベースサーバー
     mysql:
         image: 'mysql/mysql-server:8.0'
@@ -73,7 +72,18 @@ services:
             - './docs/api/${OPENAPI_FILE_NAME}:/openapi/openapi.yml'
         networks:
             - sail
-    ## ReDoc
+    # ReDoc
+    redoc:
+        image: redocly/redoc
+        ports:
+            - '8003:80'
+        environment:
+            SPEC_URL: '/swagger.yaml'
+        volumes:
+            - './docs/api/api.yml:/usr/share/nginx/html/swagger.yaml'
+        networks:
+            - sail
+
     # IMPLEMENT HERE
 
 networks:
